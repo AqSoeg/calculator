@@ -55,6 +55,7 @@ function clearAll() {
   isNum1Set = false;
   isNum2Set = false;
   opClicked = false;
+  displayValue = "";
   num1 = 0;
   num2 = 0;
   result = 0;
@@ -69,8 +70,8 @@ const allClear = document.querySelector("#all-clear");
 const back = document.querySelector("#back");
 const percentage = document.querySelector("#percentage");
 let displayValue = "";
-let num1;
-let num2;
+let num1 = 0;
+let num2 = 0;
 let operator;
 let result;
 let isNum1Set = false;
@@ -81,7 +82,7 @@ let opClicked = false;
 digits.forEach((digit) => {
   digit.addEventListener("click", () => {
     if (displayValue === "ERROR" || displayValue === "Invalid operator")
-      displayValue = "";
+      clearAll();
     if (!opClicked) {
       opClicked = false;
       displayValue += digit.textContent;
@@ -97,9 +98,9 @@ digits.forEach((digit) => {
 
 // Event function for + - * / buttons
 operators.forEach((op) => {
-  if (displayValue === "ERROR" || displayValue === "Invalid operator")
-    displayValue = "";
   op.addEventListener("click", () => {
+    if (displayValue === "ERROR" || displayValue === "Invalid operator")
+      clearAll();
     if (!isNum1Set) {
       opClicked = true;
       isNum1Set = true;
@@ -125,7 +126,7 @@ operators.forEach((op) => {
 equal.addEventListener("click", () => {
   opClicked = true;
   if (displayValue === "ERROR" || displayValue === "Invalid operator")
-    displayValue = "";
+    clearAll();
   if (!isNum1Set) {
     return;
   }
@@ -152,7 +153,7 @@ allClear.addEventListener("click", () => {
 // Back button
 back.addEventListener("click", () => {
   if (displayValue === "ERROR" || displayValue === "Invalid operator")
-    displayValue = "";
+    clearAll();
   else if (displayValue === "") return;
   isNum1Set = false;
   displayValue = displayValue.toString().slice(0, -1);
