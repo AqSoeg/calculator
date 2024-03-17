@@ -1,6 +1,9 @@
-* {
+body {
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 button {
@@ -30,8 +33,14 @@ button {
     background-color: bisque;
 }
 
-.operator {
+.non-digit {
     width: 100px;
     height: 100px;
     background-color: tomato;
+}
+
+.equal {
+    width: 100px;
+    height: 100px;
+    background-color: salmon;
 }
