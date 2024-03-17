@@ -18,18 +18,27 @@ function divide(num1, num2) {
 }
 
 function operate(num1, num2, operator) {
+  let res;
   switch (operator) {
     case "+":
-      return add(num1, num2);
+      res = add(num1, num2);
+      break;
     case "-":
-      return subtract(num1, num2);
+      res = subtract(num1, num2);
+      break;
     case "*":
-      return multiply(num1, num2);
+      res = multiply(num1, num2);
+      break;
     case "/":
-      return divide(num1, num2);
+      res = divide(num1, num2);
+      break;
     default:
       return "Invalid operator";
   }
+  if (res.toString().includes(".")) {
+    res = res.toFixed(6);
+  }
+  return res;
 }
 
 function updateDisplay() {
@@ -48,6 +57,8 @@ const digits = document.querySelectorAll(".digit");
 const operators = document.querySelectorAll(".operator");
 const equal = document.querySelector("#equal");
 const allClear = document.querySelector("#all-clear");
+const back = document.querySelector("#back");
+const percentage = document.querySelector("#percentage");
 let displayValue = "";
 let num = "";
 let num1;
@@ -74,7 +85,7 @@ digits.forEach((digit) => {
   });
 });
 
-// Event function for operator buttons
+// Event function for + - * / buttons
 operators.forEach((op) => {
   op.addEventListener("click", () => {
     if (!isNum1Set) {
@@ -98,7 +109,7 @@ operators.forEach((op) => {
   });
 });
 
-// Event function for equal button
+// Event function for = button
 equal.addEventListener("click", () => {
   opClicked = true;
   if (!isNum1Set) {
@@ -110,26 +121,30 @@ equal.addEventListener("click", () => {
     displayValue = operate(num1, num2, operator);
     updateDisplay();
   }
-  console.log("hello");
-  console.log("num1: " + num1);
-  console.log("num2: " + num2);
-  console.log("operator: " + operator);
   result = operate(num1, num2, operator);
   num1 = result;
   num2 = undefined;
   isNum1Set = true;
   isNum2Set = false;
-  console.log("result: " + result);
   displayValue = result;
   updateDisplay();
 });
 
+// Event function for AC button
 allClear.addEventListener("click", () => {
   isNum1Set = false;
   isNum2Set = false;
   opClicked = false;
   num1 = undefined;
   num2 = undefined;
+  result = undefined;
   operator = undefined;
   clearDisplay();
+});
+
+// Back button
+back.addEventListener("click", () => {
+  isNum1Set = false;
+  displayValue = displayValue.toString().slice(0, -1);
+  updateDisplay();
 });
