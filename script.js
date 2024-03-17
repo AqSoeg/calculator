@@ -12,7 +12,8 @@ function multiply(num1, num2) {
 
 function divide(num1, num2) {
   if (num2 === 0) {
-    return "Divided by zero";
+    clearAll();
+    return "ERROR";
   }
   return num1 / num2;
 }
@@ -50,7 +51,15 @@ function clearDisplay() {
   updateDisplay();
 }
 
-function calc() {}
+function clearAll() {
+  isNum1Set = false;
+  isNum2Set = false;
+  opClicked = false;
+  num1 = 0;
+  num2 = 0;
+  result = 0;
+  operator = undefined;
+}
 
 const displayDiv = document.querySelector(".display");
 const digits = document.querySelectorAll(".digit");
@@ -60,7 +69,6 @@ const allClear = document.querySelector("#all-clear");
 const back = document.querySelector("#back");
 const percentage = document.querySelector("#percentage");
 let displayValue = "";
-let num = "";
 let num1;
 let num2;
 let operator;
@@ -72,6 +80,8 @@ let opClicked = false;
 // Event function of digit buttons
 digits.forEach((digit) => {
   digit.addEventListener("click", () => {
+    if (displayValue === "ERROR" || displayValue === "Invalid operator")
+      displayValue = "";
     if (!opClicked) {
       opClicked = false;
       displayValue += digit.textContent;
@@ -87,6 +97,8 @@ digits.forEach((digit) => {
 
 // Event function for + - * / buttons
 operators.forEach((op) => {
+  if (displayValue === "ERROR" || displayValue === "Invalid operator")
+    displayValue = "";
   op.addEventListener("click", () => {
     if (!isNum1Set) {
       opClicked = true;
@@ -112,38 +124,36 @@ operators.forEach((op) => {
 // Event function for = button
 equal.addEventListener("click", () => {
   opClicked = true;
+  if (displayValue === "ERROR" || displayValue === "Invalid operator")
+    displayValue = "";
   if (!isNum1Set) {
     return;
   }
   if (!isNum2Set) {
     isNum2Set = true;
     num2 = parseFloat(displayValue);
-    displayValue = operate(num1, num2, operator);
+    result = operate(num1, num2, operator);
+    displayValue = result;
+    num1 = result;
+    num2 = undefined;
+    isNum1Set = true;
+    isNum2Set = false;
+    displayValue = result;
     updateDisplay();
   }
-  result = operate(num1, num2, operator);
-  num1 = result;
-  num2 = undefined;
-  isNum1Set = true;
-  isNum2Set = false;
-  displayValue = result;
-  updateDisplay();
 });
 
 // Event function for AC button
 allClear.addEventListener("click", () => {
-  isNum1Set = false;
-  isNum2Set = false;
-  opClicked = false;
-  num1 = undefined;
-  num2 = undefined;
-  result = undefined;
-  operator = undefined;
+  clearAll();
   clearDisplay();
 });
 
 // Back button
 back.addEventListener("click", () => {
+  if (displayValue === "ERROR" || displayValue === "Invalid operator")
+    displayValue = "";
+  else if (displayValue === "") return;
   isNum1Set = false;
   displayValue = displayValue.toString().slice(0, -1);
   updateDisplay();
