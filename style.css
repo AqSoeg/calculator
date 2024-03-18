@@ -12,6 +12,7 @@ button {
     align-items: center;
     justify-content: center;
     border: none;
+    border-radius: 5px;
     font-size: 28px;
     font-weight: 400;
 }
@@ -37,10 +38,11 @@ button {
     background-color: #fff;
     padding: 10px;
     width: 400px;
+    justify-content: center;
 }
 
 .display {
-    width: 400px;
+    width: 370px;
     height: 80px;
     font-size: 36px;
     padding: 0 10px;
